@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  animo.web.api:
+    image: ${DOCKER_REGISTRY-}animowebapi
+    build:
+      context: .
+      dockerfile: Animo.Web.Api/Dockerfile
+    depends_on:
+      - "postgres"
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "animouser"
+      POSTGRES_PASSWORD: "animouser"
+      POSTGRES_DB: "animodb"
