@@ -1,0 +1,21 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "serviceActions": {
+        "animo.web.api": "StartDebugging",
+        "postgres": "StartWithoutDebugging"
+      },
+      "composeLaunchAction": "LaunchBrowser",
+      "commandVersion": "1.0"
+    },
+    "Docker Compose DB": {
+      "commandName": "DockerCompose",
+      "serviceActions": {
+        "animo.web.api": "DoNotStart",
+        "postgres": "StartWithoutDebugging"
+      },
+      "commandVersion": "1.0"
+    }
+  }
+}
