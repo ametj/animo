@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Animo.Web.Core.Roles
+namespace Animo.Web.Core.Models.Roles
 {
     public static class DefaultRoles
     {

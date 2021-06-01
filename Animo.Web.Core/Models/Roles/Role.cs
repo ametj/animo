@@ -1,8 +1,8 @@
-﻿using Animo.Web.Core.Users;
+﻿using Animo.Web.Core.Models.Users;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
-namespace Animo.Web.Core.Roles
+namespace Animo.Web.Core.Models.Roles
 {
     public class Role : IdentityRole<int>
     {

@@ -1,7 +1,7 @@
-﻿using Animo.Web.Core.Roles;
+﻿using Animo.Web.Core.Models.Roles;
 using System.Collections.Generic;
 
-namespace Animo.Web.Core.Permissions
+namespace Animo.Web.Core.Models.Permissions
 {
     public class Permission : BaseEntity
     {

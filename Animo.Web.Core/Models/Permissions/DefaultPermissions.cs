@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Animo.Web.Core.Permissions
+namespace Animo.Web.Core.Models.Permissions
 {
     public class DefaultPermissions
     {

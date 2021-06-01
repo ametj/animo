@@ -1,7 +1,7 @@
-﻿using Animo.Web.Core.Roles;
+﻿using Animo.Web.Core.Models.Roles;
 using Microsoft.AspNetCore.Identity;
 
-namespace Animo.Web.Core.Users
+namespace Animo.Web.Core.Models.Users
 {
     public class UserRole : IdentityUserRole<int>
     {

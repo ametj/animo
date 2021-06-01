@@ -1,12 +1,34 @@
-﻿using Animo.Web.Core.Permissions;
-using Animo.Web.Core.Roles;
-using Animo.Web.Core.Users;
+﻿using Animo.Web.Core.Models;
+using Animo.Web.Core.Models.Permissions;
+using Animo.Web.Core.Models.Roles;
+using Animo.Web.Core.Models.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Animo.Web.Core
 {
-    public class BaseDbContext<T> : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken> where T : DbContext
+    public interface IBaseDbContext
+    {
+        DbSet<Permission> Permissions { get; set; }
+
+        DbSet<RolePermission> RolePermissions { get; set; }
+
+        DbSet<UserRole> UserRoles { get; set; }
+
+        DbSet<Role> Roles { get; set; }
+
+        DbSet<RoleClaim> RoleClaims { get; set; }
+
+        DbSet<User> Users { get; set; }
+
+        DbSet<UserClaim> UserClaims { get; set; }
+
+        DbSet<UserLogin> UserLogins { get; set; }
+
+        DbSet<UserToken> UserTokens { get; set; }
+    }
+
+    public class BaseDbContext<T> : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>, IBaseDbContext where T : DbContext
     {
         public BaseDbContext(DbContextOptions<T> options) : base(options)
         {

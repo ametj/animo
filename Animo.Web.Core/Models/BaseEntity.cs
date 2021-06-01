@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Animo.Web.Core
+namespace Animo.Web.Core.Models
 {
     public abstract class BaseEntity : BaseEntity<int> { }
 

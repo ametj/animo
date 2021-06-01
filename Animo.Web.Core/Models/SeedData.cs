@@ -1,9 +1,9 @@
-﻿using Animo.Web.Core.Permissions;
-using Animo.Web.Core.Roles;
-using Animo.Web.Core.Users;
+﻿using Animo.Web.Core.Models.Permissions;
+using Animo.Web.Core.Models.Roles;
+using Animo.Web.Core.Models.Users;
 using System.Linq;
 
-namespace Animo.Web.Core
+namespace Animo.Web.Core.Models
 {
     public class SeedData
     {

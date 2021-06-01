@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
-namespace Animo.Web.Core.Users
+namespace Animo.Web.Core.Models.Users
 {
     public class DefaultUsers
     {

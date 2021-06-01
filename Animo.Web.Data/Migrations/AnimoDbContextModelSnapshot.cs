@@ -17,7 +17,7 @@ namespace Animo.Web.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("Animo.Web.Core.Permissions.Permission", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Permissions.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,7 +69,7 @@ namespace Animo.Web.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Roles.Role", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Roles.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -118,7 +118,7 @@ namespace Animo.Web.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Roles.RoleClaim", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Roles.RoleClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -141,7 +141,7 @@ namespace Animo.Web.Data.Migrations
                     b.ToTable("RoleClaim");
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Roles.RolePermission", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Roles.RolePermission", b =>
                 {
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
@@ -173,7 +173,7 @@ namespace Animo.Web.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Users.User", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Users.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -271,7 +271,7 @@ namespace Animo.Web.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Users.UserClaim", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Users.UserClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -294,7 +294,7 @@ namespace Animo.Web.Data.Migrations
                     b.ToTable("UserClaim");
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Users.UserLogin", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Users.UserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("text");
@@ -315,7 +315,7 @@ namespace Animo.Web.Data.Migrations
                     b.ToTable("UserLogin");
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Users.UserRole", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Users.UserRole", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -342,7 +342,7 @@ namespace Animo.Web.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Users.UserToken", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Users.UserToken", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -361,24 +361,24 @@ namespace Animo.Web.Data.Migrations
                     b.ToTable("UserToken");
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Roles.RoleClaim", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Roles.RoleClaim", b =>
                 {
-                    b.HasOne("Animo.Web.Core.Roles.Role", null)
+                    b.HasOne("Animo.Web.Core.Models.Roles.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Roles.RolePermission", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Roles.RolePermission", b =>
                 {
-                    b.HasOne("Animo.Web.Core.Permissions.Permission", "Permission")
+                    b.HasOne("Animo.Web.Core.Models.Permissions.Permission", "Permission")
                         .WithMany("RolePermissions")
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Animo.Web.Core.Roles.Role", "Role")
+                    b.HasOne("Animo.Web.Core.Models.Roles.Role", "Role")
                         .WithMany("RolePermissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -389,33 +389,33 @@ namespace Animo.Web.Data.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Users.UserClaim", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Users.UserClaim", b =>
                 {
-                    b.HasOne("Animo.Web.Core.Users.User", null)
+                    b.HasOne("Animo.Web.Core.Models.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Users.UserLogin", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Users.UserLogin", b =>
                 {
-                    b.HasOne("Animo.Web.Core.Users.User", null)
+                    b.HasOne("Animo.Web.Core.Models.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Users.UserRole", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Users.UserRole", b =>
                 {
-                    b.HasOne("Animo.Web.Core.Roles.Role", "Role")
+                    b.HasOne("Animo.Web.Core.Models.Roles.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Animo.Web.Core.Users.User", "User")
+                    b.HasOne("Animo.Web.Core.Models.Users.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -426,28 +426,28 @@ namespace Animo.Web.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Users.UserToken", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Users.UserToken", b =>
                 {
-                    b.HasOne("Animo.Web.Core.Users.User", null)
+                    b.HasOne("Animo.Web.Core.Models.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Permissions.Permission", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Permissions.Permission", b =>
                 {
                     b.Navigation("RolePermissions");
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Roles.Role", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Roles.Role", b =>
                 {
                     b.Navigation("RolePermissions");
 
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Animo.Web.Core.Users.User", b =>
+            modelBuilder.Entity("Animo.Web.Core.Models.Users.User", b =>
                 {
                     b.Navigation("UserRoles");
                 });

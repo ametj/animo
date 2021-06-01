@@ -1,3 +1,5 @@
+using Animo.Web.Api.Extensions;
+using Animo.Web.Core;
 using Animo.Web.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +26,11 @@ namespace Animo.Web.Api
             services.AddDbContext<AnimoDbContext>(options =>
                 options.UseNpgsql(Configuration["ConnectionString"]));
 
+            services.ConfigureAuthentication();
+            services.ConfigureDependencyInjection();
+
+            services.AddAutoMapper(typeof(Startup), typeof(IBaseDbContext), typeof(AnimoDbContext));
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -42,9 +49,9 @@ namespace Animo.Web.Api
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -1,6 +1,6 @@
-﻿using Animo.Web.Core.Permissions;
+﻿using Animo.Web.Core.Models.Permissions;
 
-namespace Animo.Web.Core.Roles
+namespace Animo.Web.Core.Models.Roles
 {
     public class RolePermission
     {
