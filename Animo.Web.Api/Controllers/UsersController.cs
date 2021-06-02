@@ -3,71 +3,60 @@ using Animo.Web.Core.Models.Permissions;
 using Animo.Web.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Animo.Web.Api.Controllers
 {
-    //[Authorize(Policy = DefaultPermissions.PermissionNameForAdminAccess)]
+    [Authorize(Policy = DefaultPermissions.PermissionNameForAdminAccess)]
     public class UsersController : BaseController
     {
-        private readonly IUserService _userAppService;
+        private readonly IUserService _userService;
 
-        public UsersController(IUserService userAppService)
+        public UsersController(IUserService userService)
         {
-            _userAppService = userAppService;
+            _userService = userService;
         }
 
         [HttpGet]
         public async Task<ActionResult<PagedList<UserListDto>>> GetUsers([FromQuery] PagedListRequest request)
         {
-            return Ok(await _userAppService.GetUsersAsync(request));
+            return Ok(await _userService.GetUsersAsync(request));
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<GetUserForCreateOrUpdate>> GetUsers(int id)
         {
-            var getUserForCreateOrUpdateOutput = await _userAppService.GetUserForCreateOrUpdateAsync(id);
+            var user = await _userService.GetUserForCreateOrUpdateAsync(id);
 
-            return Ok(getUserForCreateOrUpdateOutput);
+            return user == null ? NotFound() : Ok(user);
         }
 
         [HttpPost]
         public async Task<ActionResult> PostUsers([FromBody] CreateOrUpdateUser user)
         {
-            var identityResult = await _userAppService.AddUserAsync(user);
+            var result = await _userService.AddUserAsync(user);
 
-            if (identityResult.Succeeded)
-            {
-                return Created(Url.Action("PostUsers"), identityResult);
-            }
-            return BadRequest(identityResult.Errors.Select(e => new IdValueDto<string>(e.Code, e.Description)));
+            return ProcessIdentityValidation(result) ? Created(Url.Action("PostUsers"), result) : ValidationProblem();
         }
 
         [HttpPut]
         public async Task<ActionResult> PutUsers([FromBody] CreateOrUpdateUser user)
         {
-            var identityResult = await _userAppService.EditUserAsync(user);
+            var result = await _userService.EditUserAsync(user);
 
-            if (identityResult.Succeeded)
-            {
-                return Ok();
-            }
+            if (result == null) return NotFound();
 
-            return BadRequest(identityResult.Errors.Select(e => new IdValueDto<string>(e.Code, e.Description)));
+            return ProcessIdentityValidation(result) ? Ok() : ValidationProblem();
         }
 
         [HttpDelete]
         public async Task<ActionResult> DeleteUsers(int id)
         {
-            var identityResult = await _userAppService.RemoveUserAsync(id);
+            var result = await _userService.RemoveUserAsync(id);
 
-            if (identityResult.Succeeded)
-            {
-                return NoContent();
-            }
+            if (result == null) return NotFound();
 
-            return BadRequest(identityResult.Errors.Select(e => new IdValueDto<string>(e.Code, e.Description)));
+            return ProcessIdentityValidation(result) ? NoContent() : ValidationProblem();
         }
     }
 }

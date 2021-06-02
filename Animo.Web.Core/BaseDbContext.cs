@@ -4,6 +4,8 @@ using Animo.Web.Core.Models.Roles;
 using Animo.Web.Core.Models.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Animo.Web.Core
 {
@@ -26,6 +28,10 @@ namespace Animo.Web.Core
         DbSet<UserLogin> UserLogins { get; set; }
 
         DbSet<UserToken> UserTokens { get; set; }
+
+        public int SaveChanges();
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 
     public class BaseDbContext<T> : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>, IBaseDbContext where T : DbContext

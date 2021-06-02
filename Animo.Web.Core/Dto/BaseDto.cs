@@ -13,13 +13,4 @@
     {
         public string Name { get; init; }
     }
-
-    public record IdValueDto() : IdValueDto<int>();
-
-    public record IdValueDto<T>() : BaseDto<T>()
-    {
-        public string Value { get; init; }
-
-        public IdValueDto(T id, string name) : this() => (Id, Value) = (id, name);
-    }
 }

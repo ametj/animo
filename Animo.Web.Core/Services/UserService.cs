@@ -52,7 +52,7 @@ namespace Animo.Web.Core.Services
                 return new GetUserForCreateOrUpdate(allRoles);
             }
 
-            return await GetUserForCreateOrUpdateOutputAsync(id, allRoles);
+            return await GetUserForUpdateAsync(id, allRoles);
         }
 
         public async Task<IdentityResult> AddUserAsync(CreateOrUpdateUser request)
@@ -76,6 +76,9 @@ namespace Animo.Web.Core.Services
         public async Task<IdentityResult> EditUserAsync(CreateOrUpdateUser request)
         {
             var user = await _userManager.FindByIdAsync(request.User.Id.ToString());
+
+            if (user == null) return null;
+
             if (user.UserName == request.User.UserName && user.Id != request.User.Id)
             {
                 return IdentityResult.Failed(new IdentityError
@@ -100,14 +103,8 @@ namespace Animo.Web.Core.Services
         public async Task<IdentityResult> RemoveUserAsync(int id)
         {
             var user = _userManager.Users.FirstOrDefault(u => u.Id == id);
-            if (user == null)
-            {
-                return IdentityResult.Failed(new IdentityError
-                {
-                    Code = "UserNotFound",
-                    Description = "User not found!"
-                });
-            }
+
+            if (user == null) return null;
 
             if (DefaultUsers.All().Select(u => u.UserName).Contains(user.UserName))
             {
@@ -168,9 +165,12 @@ namespace Animo.Web.Core.Services
             return updateUserResult;
         }
 
-        private async Task<GetUserForCreateOrUpdate> GetUserForCreateOrUpdateOutputAsync(int id, List<RoleDto> allRoles)
+        private async Task<GetUserForCreateOrUpdate> GetUserForUpdateAsync(int id, List<RoleDto> allRoles)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user == null) return null;
+
             var userDto = _mapper.Map<UserDto>(user);
             var grantedRoles = user.UserRoles.Select(ur => ur.Role.Id);
 
