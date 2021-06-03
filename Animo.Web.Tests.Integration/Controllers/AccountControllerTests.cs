@@ -1,4 +1,5 @@
 ﻿using Animo.Web.Core.Dto;
+using Animo.Web.Core.Extensions;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -43,17 +44,31 @@ namespace Animo.Web.Tests.Integration.Controllers
             var loginResponse = await LoginAsAdminUserAsync();
             var loginResult = await loginResponse.Content.ReadAsAsync<LoginToken>();
             var token = loginResult.Token;
-            
+
             Assert.Equal(HttpStatusCode.OK, loginResponse.StatusCode);
             Assert.NotNull(loginResult.Token);
 
             var request = new HttpRequestMessage(HttpMethod.Get, "/api/users");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var client = _factory.CreateClient();
-            var response = await client.SendAsync(request);
-            
+            var response = await _client.SendAsync(request);
+
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Register_NewUser_ShouldRegisterAndBeAbleToLogin()
+        {
+            var userName = "registerNewName";
+            var email = "registerNewEmail@mail.com";
+            var password = "123_aBc*";
+
+            var newUser = new Register(userName, email, password);
+            var response = await _client.PostAsync("/api/Account/Register", newUser.ToStringConent());
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var loginResponse = await Login(userName, password);
+            Assert.Equal(HttpStatusCode.OK, loginResponse.StatusCode);
         }
     }
 }

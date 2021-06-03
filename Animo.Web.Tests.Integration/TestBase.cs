@@ -10,18 +10,19 @@ namespace Animo.Web.Tests.Integration
     public class TestBase : IClassFixture<CustomWebApplicationFactory>
     {
         protected CustomWebApplicationFactory _factory;
+        protected HttpClient _client;
 
         public TestBase(CustomWebApplicationFactory factory)
         {
             _factory = factory;
+            _client = factory.CreateClient();
         }
 
         protected async Task<HttpResponseMessage> Login(string userName, string password)
         {
-            var client = _factory.CreateClient();
+            var login = new Login(userName, password);
 
-            var content = ObjectExtensions.ToStringConent(new Login(userName, password));
-            return await client.PostAsync("/api/Account/Login", content);
+            return await _client.PostAsync("/api/Account/Login", login.ToStringConent());
         }
 
         protected async Task<HttpResponseMessage> LoginAsAdminUserAsync()
