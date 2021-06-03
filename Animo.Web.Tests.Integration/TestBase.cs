@@ -1,4 +1,4 @@
-﻿using Animo.Web.Core.Dto;
+using Animo.Web.Core.Dto;
 using Animo.Web.Core.Extensions;
 using Animo.Web.Core.Models.Users;
 using System.Net.Http;
@@ -7,7 +7,8 @@ using Xunit;
 
 namespace Animo.Web.Tests.Integration
 {
-    public class TestBase : IClassFixture<CustomWebApplicationFactory>
+    [Collection("CustomWebApplicationFactory")]
+    public class TestBase
     {
         protected CustomWebApplicationFactory _factory;
         protected HttpClient _client;
