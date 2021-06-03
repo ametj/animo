@@ -50,11 +50,7 @@ namespace Animo.Web.Tests.Integration.Controllers
         public async Task Register_NewUser_ShouldRegisterAndBeAbleToLogin()
         {
             var userName = "registerNewName";
-            var email = "registerNewName@mail.com";
-
-            var newUser = new Register(userName, email, ValidPassword);
-            var response = await _client.PostAsync("/api/Account/Register", newUser.ToStringConent());
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            await Register(userName);
 
             var loginResponse = await GetLoginResponse(userName, ValidPassword);
             Assert.Equal(HttpStatusCode.OK, loginResponse.StatusCode);
@@ -65,9 +61,7 @@ namespace Animo.Web.Tests.Integration.Controllers
         [InlineData("NewName", "Admin@mail.com")]
         public async Task Register_ExistingUser_ShouldNotRegister(string userName, string email)
         {
-            var newUser = new Register(userName, email, ValidPassword);
-            var response = await _client.PostAsync("/api/Account/Register", newUser.ToStringConent());
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            await Register(userName, email: email, statusCode: HttpStatusCode.BadRequest);
         }
 
         [Theory]
@@ -80,13 +74,49 @@ namespace Animo.Web.Tests.Integration.Controllers
         [InlineData("OnlyAlphanumeric1", 1)]
         public async Task Register_NotValidPassword_ShouldReturnValidationErrors(string password, int numberOfValidationsFailed)
         {
-            var newUser = new Register("NewName", "NewName@mail.com", password);
-            var response = await _client.PostAsync("/api/Account/Register", newUser.ToStringConent());
+            var response = await Register("NotValidPassword", password, statusCode: HttpStatusCode.BadRequest);
             var result = await response.Content.ReadAsAsync<ValidationProblemDetails>();
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
             Assert.NotNull(result);
             Assert.Equal(numberOfValidationsFailed, result.Errors.Count);
+        }
+
+        [Fact]
+        public async Task ChangePassword_CorrectPassword_ShouldChangePassword()
+        {
+            var userName = "ChangePassword";
+            await Register(userName);
+            await Login(userName, ValidPassword);
+
+            var newPassword = ValidPassword + ValidPassword;
+
+            var response = await _client.PutAsync("/api/Account/Password", new ChangePassword(ValidPassword, newPassword).ToStringConent());
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var oldPasswordLoginResponse = await GetLoginResponse(userName, ValidPassword);
+            Assert.Equal(HttpStatusCode.BadRequest, oldPasswordLoginResponse.StatusCode);
+
+            var newPasswordLoginResponse = await GetLoginResponse(userName, newPassword);
+            Assert.Equal(HttpStatusCode.OK, newPasswordLoginResponse.StatusCode);
+        }
+
+        [Fact]
+        public async Task ChangePassword_NotAuthorized_ShouldFail()
+        {
+            var response = await _client.PutAsync("/api/Account/Password", new ChangePassword(ValidPassword, ValidPassword).ToStringConent());
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        private async Task<HttpResponseMessage> Register(string userName, string password = ValidPassword, string email = null, HttpStatusCode statusCode = HttpStatusCode.OK)
+        {
+            email ??= $"{userName}@mail.com";
+
+            var newUser = new Register(userName, email, password);
+            var response = await _client.PostAsync("/api/Account/Register", newUser.ToStringConent());
+            Assert.Equal(statusCode, response.StatusCode);
+
+            return response;
         }
     }
 }

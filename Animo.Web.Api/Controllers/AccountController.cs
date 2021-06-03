@@ -1,6 +1,7 @@
 ﻿using Animo.Web.Core.Auth;
 using Animo.Web.Core.Dto;
 using Animo.Web.Core.Models.Permissions;
+using Animo.Web.Core.Models.Roles;
 using Animo.Web.Core.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -106,6 +107,9 @@ namespace Animo.Web.Api.Controllers
                 return ValidationProblem();
             }
 
+            var currentUser = await _userManager.FindByNameAsync(body.Name);
+            await _userManager.AddToRoleAsync(currentUser, DefaultRoles.Member.Name);
+
             _logger.LogInformation($"Registration success: {applicationUser}");
             return Ok();
         }
@@ -139,6 +143,7 @@ namespace Animo.Web.Api.Controllers
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = _configuration["App:ClientUrl"] + "/account/reset-password?token=" + resetToken;
 
+            // TODO: Move to right place and make it pretty 
             var message = new MailMessage(
                 from: _configuration["Email:Smtp:Username"],
                 to: user.Email,
