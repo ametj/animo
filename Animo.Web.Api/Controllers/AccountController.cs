@@ -97,7 +97,8 @@ namespace Animo.Web.Api.Controllers
                 EmailConfirmed = false
             };
 
-            var result = await _userManager.CreateAsync(applicationUser, body.Password);
+            // To get password requirements when password is null
+            var result = await _userManager.CreateAsync(applicationUser, body.Password ?? string.Empty);
 
             if (!ProcessIdentityValidation(result))
             {
