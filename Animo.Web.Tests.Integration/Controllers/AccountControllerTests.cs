@@ -1,5 +1,4 @@
 ﻿using Animo.Web.Core.Dto;
-using Animo.Web.Core.Extensions;
 using Animo.Web.Core.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -9,7 +8,7 @@ using Xunit;
 
 namespace Animo.Web.Tests.Integration.Controllers
 {
-    public class AccountControllerTests : TestBase
+    public class AccountControllerTests : AuthorizationTestBase
     {
         public const string ValidPassword = "123_aBc*";
 
@@ -91,7 +90,7 @@ namespace Animo.Web.Tests.Integration.Controllers
 
             var newPassword = ValidPassword + ValidPassword;
 
-            var response = await _client.PutAsync("/api/Account/Password", new ChangePassword(ValidPassword, newPassword).ToStringConent());
+            var response = await PutAsync("/api/Account/Password", new ChangePassword(ValidPassword, newPassword));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var oldPasswordLoginResponse = await GetLoginResponse(userName, ValidPassword);
@@ -104,7 +103,7 @@ namespace Animo.Web.Tests.Integration.Controllers
         [Fact]
         public async Task ChangePassword_NotAuthorized_ShouldFail()
         {
-            var response = await _client.PutAsync("/api/Account/Password", new ChangePassword(ValidPassword, ValidPassword).ToStringConent());
+            var response = await PutAsync("/api/Account/Password", new ChangePassword(ValidPassword, ValidPassword));
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
@@ -113,7 +112,7 @@ namespace Animo.Web.Tests.Integration.Controllers
             email ??= $"{userName}@mail.com";
 
             var newUser = new Register(userName, email, password);
-            var response = await _client.PostAsync("/api/Account/Register", newUser.ToStringConent());
+            var response = await PostAsync("/api/Account/Register", newUser);
             Assert.Equal(statusCode, response.StatusCode);
 
             return response;

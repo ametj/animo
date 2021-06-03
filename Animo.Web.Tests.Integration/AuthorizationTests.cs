@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Animo.Web.Tests.Integration
 {
-    public class AuthorizationTests : TestBase
+    public class AuthorizationTests : AuthorizationTestBase
     {
         public AuthorizationTests(CustomWebApplicationFactory factory) : base(factory)
         {
@@ -15,7 +15,7 @@ namespace Animo.Web.Tests.Integration
         {
             await LoginAsAdmin();
 
-            var response = await _client.GetAsync("/api/users");
+            var response = await GetAsync("/api/users");
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
@@ -25,7 +25,7 @@ namespace Animo.Web.Tests.Integration
         {
             await LoginAsMember();
 
-            var response = await _client.GetAsync("/api/users");
+            var response = await GetAsync("/api/users");
 
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
@@ -33,7 +33,7 @@ namespace Animo.Web.Tests.Integration
         [Fact]
         public async Task Authorize_Unauthorized_ShouldNotAllowAccess()
         {
-            var response = await _client.GetAsync("/api/users");
+            var response = await GetAsync("/api/users");
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }

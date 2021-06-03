@@ -1,8 +1,4 @@
-﻿using Animo.Web.Core.Dto;
-using Animo.Web.Core.Extensions;
-using Animo.Web.Core.Models.Users;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -20,35 +16,34 @@ namespace Animo.Web.Tests.Integration
             _client = factory.CreateClient();
         }
 
-        protected void SetAuthorizationHeader(string token)
+        protected async Task<HttpResponseMessage> GetAsync(string requestUri)
         {
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            return await _client.GetAsync(requestUri);
         }
 
-        protected async Task<HttpResponseMessage> GetLoginResponse(string userName, string password)
+        protected async Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content)
         {
-            var login = new Login(userName, password);
-
-            return await _client.PostAsync("/api/Account/Login", login.ToStringConent());
+            return await _client.PostAsync(requestUri, content);
         }
 
-        protected async Task Login(string userName, string password)
+        protected async Task<HttpResponseMessage> PostAsync<T>(string requestUri, T value)
         {
-            var response = await GetLoginResponse(userName, password);
-            var content = await response.Content.ReadAsAsync<LoginToken>();
-            SetAuthorizationHeader(content.Token);
+            return await _client.PostAsJsonAsync(requestUri, value);
         }
 
-        protected async Task LoginAsAdmin()
+        protected async Task<HttpResponseMessage> PutAsync(string requestUri, HttpContent content)
         {
-            var admin = DefaultUsers.Admin;
-            await Login(admin.UserName, admin.UserName);
+            return await _client.PutAsync(requestUri, content);
         }
 
-        protected async Task LoginAsMember()
+        protected async Task<HttpResponseMessage> PutAsync<T>(string requestUri, T value)
         {
-            var member = DefaultUsers.Member;
-            await Login(member.UserName, member.UserName);
+            return await _client.PutAsJsonAsync(requestUri, value);
+        }
+
+        protected async Task<HttpResponseMessage> DeleteAsync(string requestUri)
+        {
+            return await _client.DeleteAsync(requestUri);
         }
     }
 }
