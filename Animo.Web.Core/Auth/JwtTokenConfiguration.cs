@@ -1,9 +1,17 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Animo.Web.Core.Auth
 {
-    public record JwtTokenConfiguration
+    public interface IJwtTokenFactory
+    {
+        JwtSecurityToken CreateNewToken(IEnumerable<Claim> claims);
+    }
+
+    public record JwtTokenConfiguration : IJwtTokenFactory
     {
         public string Issuer { get; set; }
 
@@ -11,8 +19,19 @@ namespace Animo.Web.Core.Auth
 
         public SigningCredentials SigningCredentials { get; set; }
 
-        public DateTime? EndDate { get; set; }
+        public TimeSpan ExpiresIn { get; set; }
 
-        public DateTime? StartDate { get; set; }
+        public JwtSecurityToken CreateNewToken(IEnumerable<Claim> claims)
+        {
+            return new JwtSecurityToken
+            (
+                issuer: Issuer,
+                audience: Audience,
+                claims: claims,
+                expires: ExpiresIn == TimeSpan.Zero ? null : DateTime.UtcNow.Add(ExpiresIn),
+                notBefore: DateTime.UtcNow,
+                signingCredentials: SigningCredentials
+            );
+        }
     }
 }

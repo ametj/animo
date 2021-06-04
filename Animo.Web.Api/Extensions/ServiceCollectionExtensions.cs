@@ -46,23 +46,17 @@ namespace Animo.Web.Api.Extensions
                 new SymmetricSecurityKey(
                     Encoding.ASCII.GetBytes(configuration["Authentication:JwtBearer:SecurityKey"]));
 
+            _ = TimeSpan.TryParse(configuration["Authentication:JwtBearer:ExpiresIn"], out var expiresIn);
+
             _jwtTokenConfiguration = new JwtTokenConfiguration
             {
                 Issuer = configuration["Authentication:JwtBearer:Issuer"],
                 Audience = configuration["Authentication:JwtBearer:Audience"],
                 SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256),
-                StartDate = DateTime.UtcNow,
-                EndDate = DateTime.UtcNow.AddDays(60),
+                ExpiresIn = expiresIn
             };
 
-            services.Configure<JwtTokenConfiguration>(config =>
-            {
-                config.Audience = _jwtTokenConfiguration.Audience;
-                config.EndDate = _jwtTokenConfiguration.EndDate;
-                config.Issuer = _jwtTokenConfiguration.Issuer;
-                config.StartDate = _jwtTokenConfiguration.StartDate;
-                config.SigningCredentials = _jwtTokenConfiguration.SigningCredentials;
-            });
+            services.AddSingleton<IJwtTokenFactory>(_jwtTokenConfiguration);
 
             services.AddAuthentication(options =>
             {

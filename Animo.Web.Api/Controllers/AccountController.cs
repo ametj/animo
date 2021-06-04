@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Mail;
@@ -22,14 +21,14 @@ namespace Animo.Web.Api.Controllers
     public class AccountController : BaseController
     {
         private readonly UserManager<User> _userManager;
-        private readonly JwtTokenConfiguration _jwtTokenConfiguration;
+        private readonly IJwtTokenFactory _jwtTokenFactory;
         private readonly IConfiguration _configuration;
         private readonly SmtpClient _smtpClient;
         private readonly ILogger<AccountController> _logger;
 
         public AccountController(
             UserManager<User> userManager,
-            IOptions<JwtTokenConfiguration> jwtTokenConfiguration,
+            IJwtTokenFactory jwtTokenFactory,
             IConfiguration configuration,
             SmtpClient smtpClient,
             ILogger<AccountController> logger)
@@ -38,7 +37,7 @@ namespace Animo.Web.Api.Controllers
             _configuration = configuration;
             _smtpClient = smtpClient;
             _logger = logger;
-            _jwtTokenConfiguration = jwtTokenConfiguration.Value;
+            _jwtTokenFactory = jwtTokenFactory;
         }
 
         [HttpPost("[action]")]
@@ -54,15 +53,7 @@ namespace Animo.Web.Api.Controllers
                 return ValidationProblem();
             }
 
-            var token = new JwtSecurityToken
-            (
-                issuer: _jwtTokenConfiguration.Issuer,
-                audience: _jwtTokenConfiguration.Audience,
-                claims: user.Claims,
-                expires: _jwtTokenConfiguration.EndDate,
-                notBefore: _jwtTokenConfiguration.StartDate,
-                signingCredentials: _jwtTokenConfiguration.SigningCredentials
-            );
+            var token = _jwtTokenFactory.CreateNewToken(user.Claims);
 
             _logger.LogInformation($"Login success: {login.NameOrEmail}");
 
@@ -143,7 +134,7 @@ namespace Animo.Web.Api.Controllers
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = _configuration["App:ClientUrl"] + "/account/reset-password?token=" + resetToken;
 
-            // TODO: Move to right place and make it pretty 
+            // TODO: Move to right place and make it pretty
             var message = new MailMessage(
                 from: _configuration["Email:Smtp:Username"],
                 to: user.Email,
