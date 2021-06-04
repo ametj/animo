@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace Animo.Web.Core.Models.Users
@@ -23,7 +24,8 @@ namespace Animo.Web.Core.Models.Users
                 NormalizedUserName = name.ToUpper(),
                 NormalizedEmail = email.ToUpper(),
                 AccessFailedCount = 5,
-                PasswordHash = _hasher.HashPassword(null, name)
+                PasswordHash = _hasher.HashPassword(null, name),
+                SecurityStamp = new Guid().ToString()
             };
         }
 
