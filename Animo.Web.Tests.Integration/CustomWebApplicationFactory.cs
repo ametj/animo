@@ -1,5 +1,7 @@
 using Animo.Web.Api;
+using Animo.Web.Core.Services;
 using Animo.Web.Data;
+using Animo.Web.Tests.Integration.Mock;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +33,8 @@ namespace Animo.Web.Tests.Integration
 
             builder.ConfigureServices(services =>
             {
+                services.AddScoped<IMailService, TestMailService>();
+
                 // Build the service provider.
                 var serviceProvider = services.BuildServiceProvider();
 
@@ -40,6 +44,7 @@ namespace Animo.Web.Tests.Integration
 
                 // Delete database before running tests.
                 db.Database.EnsureDeleted();
+                db.Database.EnsureCreated();
             });
         }
     }

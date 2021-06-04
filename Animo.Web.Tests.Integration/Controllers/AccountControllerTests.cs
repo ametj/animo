@@ -1,5 +1,6 @@
 ﻿using Animo.Web.Core.Dto;
 using Animo.Web.Core.Models.Users;
+using Animo.Web.Tests.Integration.Mock;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Http;
@@ -105,6 +106,42 @@ namespace Animo.Web.Tests.Integration.Controllers
         {
             var response = await PutAsync("/api/Account/Password", new ChangePassword(ValidPassword, ValidPassword));
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task ResetPassword_ExistingUser_ShouldSendToken()
+        {
+            var userName = "ResetPassword_ExistingUser";
+            await Register(userName);
+
+            var response = await PostAsync("/api/Account/Password/Reset", new ForgotPassword(userName));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.NotNull(TestMailService.ResetTokens[userName]);
+        }
+
+        [Fact]
+        public async Task ResetPassword_ExistingUser_ShouldChangePassword()
+        {
+            var userName = "ResetPassword_ExistingUser_Change";
+            var newPassword = ValidPassword + ValidPassword;
+
+            await Register(userName);
+            await PostAsync("/api/Account/Password/Reset", new ForgotPassword(userName));
+
+            var token = TestMailService.ResetTokens[userName];
+
+            var response = await PutAsync("/api/Account/Password/Reset", new ResetPassword(userName, newPassword, token));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var loginResponse = await GetLoginResponse(userName, newPassword);
+            Assert.Equal(HttpStatusCode.OK, loginResponse.StatusCode);
+        }
+
+        [Fact]
+        public async Task ResetPassword_NonExistingUser_ShouldFail()
+        {
+            var response = await PostAsync("/api/Account/Password/Reset", new ForgotPassword("ResetPassword_NonExistingUser"));
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
         private async Task<HttpResponseMessage> Register(string userName, string password = ValidPassword, string email = null, HttpStatusCode statusCode = HttpStatusCode.OK)

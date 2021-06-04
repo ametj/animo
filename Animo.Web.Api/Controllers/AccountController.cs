@@ -123,8 +123,7 @@ namespace Animo.Web.Api.Controllers
             var user = await FindUserByUserNameOrEmail(body.NameOrEmail);
             if (user == null)
             {
-                ModelState.AddModelError("UserNameOrEmail", $"User {body.NameOrEmail} not found!");
-                return ValidationProblem();
+                return NotFound();
             }
 
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);

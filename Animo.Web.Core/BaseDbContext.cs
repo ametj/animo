@@ -38,7 +38,6 @@ namespace Animo.Web.Core
     {
         public BaseDbContext(DbContextOptions<T> options) : base(options)
         {
-            Database.Migrate();
         }
 
         public DbSet<Permission> Permissions { get; set; }
