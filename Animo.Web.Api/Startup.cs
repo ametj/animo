@@ -77,6 +77,8 @@ namespace Animo.Web.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseHsts();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
