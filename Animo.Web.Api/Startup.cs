@@ -34,7 +34,6 @@ namespace Animo.Web.Api
 
             services.ConfigureAuthentication();
             services.ConfigureJwtTokenAuthentication(Configuration);
-            services.ConfigureSmtp(Configuration);
             services.ConfigureDependencyInjection();
 
             services.AddAutoMapper(typeof(Startup), typeof(IBaseDbContext), typeof(AnimoDbContext));

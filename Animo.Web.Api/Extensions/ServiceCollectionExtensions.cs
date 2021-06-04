@@ -13,8 +13,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Net;
-using System.Net.Mail;
 using System.Text;
 
 namespace Animo.Web.Api.Extensions
@@ -77,23 +75,14 @@ namespace Animo.Web.Api.Extensions
             });
         }
 
-        public static void ConfigureSmtp(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddScoped(serviceProvider => new SmtpClient
-            {
-                Host = configuration["Email:Smtp:Host"],
-                Port = int.Parse(configuration["Email:Smtp:Port"]),
-                Credentials = new NetworkCredential(configuration["Email:Smtp:Username"], configuration["Email:Smtp:Password"]),
-                EnableSsl = bool.Parse(configuration["Email:Smtp:EnableSsl"])
-            });
-        }
-
         public static void ConfigureDependencyInjection(this IServiceCollection services)
         {
             services.AddScoped<IBaseDbContext, AnimoDbContext>();
             services.AddScoped<IAuthorizationHandler, PermissionHandler>();
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IMailService, MailKitService>();
+            services.AddScoped<SmtpConfiguration>();
             services.AddScoped<UnitOfWorkActionFilter>();
             services.AddScoped<BadRequestLogging>();
         }

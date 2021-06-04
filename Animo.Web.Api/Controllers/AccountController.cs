@@ -3,14 +3,13 @@ using Animo.Web.Core.Dto;
 using Animo.Web.Core.Models.Permissions;
 using Animo.Web.Core.Models.Roles;
 using Animo.Web.Core.Models.Users;
+using Animo.Web.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -22,20 +21,17 @@ namespace Animo.Web.Api.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IJwtTokenFactory _jwtTokenFactory;
-        private readonly IConfiguration _configuration;
-        private readonly SmtpClient _smtpClient;
+        private readonly IMailService _mailService;
         private readonly ILogger<AccountController> _logger;
 
         public AccountController(
             UserManager<User> userManager,
             IJwtTokenFactory jwtTokenFactory,
-            IConfiguration configuration,
-            SmtpClient smtpClient,
+            IMailService mailService,
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
-            _configuration = configuration;
-            _smtpClient = smtpClient;
+            _mailService = mailService;
             _logger = logger;
             _jwtTokenFactory = jwtTokenFactory;
         }
@@ -132,33 +128,18 @@ namespace Animo.Web.Api.Controllers
             }
 
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var callbackUrl = _configuration["App:ClientUrl"] + "/account/reset-password?token=" + resetToken;
 
-            // TODO: Move to right place and make it pretty
-            var message = new MailMessage(
-                from: _configuration["Email:Smtp:Username"],
-                to: user.Email,
-                subject: "Password Reset - Animo",
-                body: "<h3>Password Reset</h3>" +
-                      $"<p>Hi {user.UserName},<br/>" +
-                      "We got a request to reset your Animo password.</p>" +
-                      $"<p><a href='{callbackUrl}'>Reset password</a></p>" +
-                      "<p>If you ignore this message, your password won't be changed.</p>");
-            message.IsBodyHtml = true;
-
-#if !DEBUG
             try
             {
-                await _smtpClient.SendMailAsync(message);
+                await _mailService.SendResetPasswordMailAsync(user, resetToken);
             }
             catch (Exception e)
             {
                 var msg = $"Could not send reset password email to user {user}";
                 _logger.LogError(e, msg);
-                return Problem(msg);
+                return Problem();
             }
-#endif
-            _logger.LogInformation($"Reset password for {user.UserName} sent to {user.Email}: {callbackUrl}");
+
             return Ok(new ForgotPasswordToken(resetToken));
         }
 
