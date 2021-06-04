@@ -44,7 +44,6 @@ namespace Animo.Web.Tests.Integration
 
                 // Delete database before running tests.
                 db.Database.EnsureDeleted();
-                db.Database.EnsureCreated();
             });
         }
     }
