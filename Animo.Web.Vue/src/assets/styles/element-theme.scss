@@ -1,0 +1,46 @@
+/* theme color */
+$--color-primary: rgb(228, 8, 191); /* icon font path, required */
+$--color-white: #222222;
+$--color-black: white;
+
+$--background-color-base: #090909;
+$--menu-background-color: $--background-color-base;
+
+$--color-primary-light-1: mix($--color-white, $--color-primary, 90%);
+$--color-primary-light-2: mix($--color-white, $--color-primary, 80%);
+$--color-primary-light-3: mix($--color-white, $--color-primary, 70%);
+$--color-primary-light-4: mix($--color-white, $--color-primary, 60%);
+$--color-primary-light-5: mix($--color-white, $--color-primary, 50%);
+$--color-primary-light-6: mix($--color-white, $--color-primary, 40%);
+$--color-primary-light-7: mix($--color-white, $--color-primary, 30%);
+$--color-primary-light-8: mix($--color-white, $--color-primary, 20%);
+$--color-primary-light-9: mix($--color-white, $--color-primary, 10%);
+
+$--color-text-primary: #cfcecc;
+$--color-text-regular: #9f9d99;
+$--color-text-secondary: #6f6c66;
+$--color-text-placeholder: #a0a4ac;
+
+$--border-color-base: #232019;
+
+$--border-color-light: yellow;
+$--border-color-lighter: cyan;
+$--border-color-extra-light: magenta;
+
+$--border-color-hover: $--color-primary-light-4;
+
+$--input-border-radius: 0;
+
+$--font-path: "~element-plus/lib/theme-chalk/fonts";
+@import "~element-plus/packages/theme-chalk/src/index";
+
+.el-menu {
+  border: none !important;
+}
+
+.el-menu-item {
+  &:focus {
+    color: $--color-primary !important;
+    background-color: unset;
+  }
+}

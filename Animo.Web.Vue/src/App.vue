@@ -1,18 +1,7 @@
 <template>
-  <img src="./assets/logo.png" />
-  <div>
-    <router-link to="/">Home</router-link>
-    <router-link to="/about">About</router-link>
-  </div>
-  <div>
-    <p>
-      If Element Plus is successfully added to this project, you'll see an
-      <code v-text="'<el-button>'"></code>
-      below
-    </p>
-    <el-button type="primary">el-button</el-button>
-  </div>
-  <router-view />
+  <component :is="$route.meta.layout || 'div'">
+    <router-view />
+  </component>
 </template>
 
 <style>
@@ -22,9 +11,16 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
+  background-color: #090909;
 }
 a {
-  margin: 5px;
+  text-decoration: none;
+  outline: none;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;    
 }
 </style>
