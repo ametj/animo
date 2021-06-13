@@ -33,6 +33,7 @@ namespace Animo.Web.Api
                 options.UseNpgsql(connectionString));
 
             services.ConfigureAuthentication();
+            services.ConfigureCors(Configuration);
             services.ConfigureJwtTokenAuthentication(Configuration);
             services.ConfigureDependencyInjection();
 
@@ -75,10 +76,11 @@ namespace Animo.Web.Api
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            app.UseHsts();
+            app.UseCors();
+
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseHsts();
 
             app.UseEndpoints(endpoints =>
             {

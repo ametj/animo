@@ -38,6 +38,18 @@ namespace Animo.Web.Api.Extensions
             });
         }
 
+        public static void ConfigureCors(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                        builder.WithOrigins(configuration["App:ClientUrls"].Split(",", StringSplitOptions.RemoveEmptyEntries))
+                            .AllowAnyHeader()
+                            .AllowAnyMethod());
+            });
+        }
+
         public static void ConfigureJwtTokenAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             _signingKey =
