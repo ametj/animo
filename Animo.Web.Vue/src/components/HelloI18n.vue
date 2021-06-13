@@ -1,5 +1,8 @@
 <template>
-  <p>{{ t('hello') }}</p>
+  <div>
+    <p>{{ t('text') }}</p>
+    <p>{{ t('message') }}</p>
+  </div>
 </template>
 
 <script lang="ts">
@@ -10,8 +13,7 @@ export default defineComponent({
   name: 'HelloI18n',
   setup() {
     const { t } = useI18n({
-      inheritLocale: true,
-      useScope: 'local'
+      useScope: 'global'
     })
 
     // Something todo ..

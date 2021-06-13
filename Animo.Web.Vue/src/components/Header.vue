@@ -1,5 +1,5 @@
 <template>
-  <el-menu mode="horizontal" @select="handleSelect">
+  <el-menu mode="horizontal">
     <el-row type="flex">
       <el-col :span="12">
         <el-row type="flex" align="middle" justify="start">
@@ -21,9 +21,10 @@
             <router-link to="/">
               <el-menu-item index="4">Ratings</el-menu-item>
             </router-link>
-            <router-link to="/Login">
-              <el-link href="/Login">Login</el-link>
-            </router-link>
+            <el-button v-if="userName" @click="logout" type="text">{{ userName }}</el-button>
+            <router-link v-else :to="{ name: RouteNames.Login }"
+              ><el-button type="text"> Login </el-button></router-link
+            >
           </el-space>
         </el-row>
       </el-col>
@@ -32,16 +33,24 @@
 </template>
 
 <script>
+import AuthService from "@/service/AuthService";
+import RouteNames from "@/router/RouteNames";
+import { useRouter } from "vue-router";
+
 export default {
-  data() {
-    return {
-      activeIndex: "1",
+  setup() {
+    const router = useRouter();
+
+    const logout = () => {
+      AuthService.logout();
+      router.push({ name: RouteNames.Home });
     };
-  },
-  methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
+
+    return {
+      RouteNames,
+      userName: AuthService.userName,
+      logout,
+    };
   },
 };
 </script>

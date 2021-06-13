@@ -1,5 +1,5 @@
 <template>
   <div style="height: 100%">
-    <slot />
+    <router-view />
   </div>
 </template>

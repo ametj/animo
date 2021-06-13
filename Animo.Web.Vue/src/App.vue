@@ -1,7 +1,5 @@
 <template>
-  <component :is="$route.meta.layout || 'div'">
-    <router-view />
-  </component>
+  <router-view />
 </template>
 
 <style>
@@ -18,9 +16,10 @@ a {
   text-decoration: none;
   outline: none;
 }
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;    
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 </style>

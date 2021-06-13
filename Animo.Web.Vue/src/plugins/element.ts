@@ -13,6 +13,7 @@ import {
   ElRow,
   ElLink,
   ElSpace,
+  ElAlert,
 } from "element-plus";
 import { App } from "vue";
 
@@ -31,5 +32,6 @@ export default (app: App<Element>) => {
     .use(ElCol)
     .use(ElRow)
     .use(ElLink)
-    .use(ElSpace);
+    .use(ElSpace)
+    .use(ElAlert);
 };

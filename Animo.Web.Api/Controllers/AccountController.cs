@@ -39,10 +39,10 @@ namespace Animo.Web.Api.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult<LoginToken>> Login([FromBody] Login login)
         {
-            var user = await CreateClaimsIdentityAsync(login.NameOrEmail, login.Password);
+            var user = await CreateClaimsIdentityAsync(login.UserNameOrEmail, login.Password);
             if (user == null)
             {
-                _logger.LogInformation($"Login fail: {login.NameOrEmail}");
+                _logger.LogInformation($"Login fail: {login.UserNameOrEmail}");
 
                 ModelState.AddModelError("UserNameOrPassword", "The user name or password is incorrect!");
 
@@ -51,7 +51,7 @@ namespace Animo.Web.Api.Controllers
 
             var token = _jwtTokenFactory.CreateNewToken(user.Claims);
 
-            _logger.LogInformation($"Login success: {login.NameOrEmail}");
+            _logger.LogInformation($"Login success: {login.UserNameOrEmail}");
 
             return Ok(new LoginToken(new JwtSecurityTokenHandler().WriteToken(token)));
         }
@@ -180,9 +180,9 @@ namespace Animo.Web.Api.Controllers
             {
                 return new ClaimsIdentity(new GenericIdentity(userNameOrEmail, "Token"), new[]
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, userNameOrEmail),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(ClaimTypes.NameIdentifier, userToVerify.Id.ToString())
+                    new Claim(JwtRegisteredClaimNames.Sub, userToVerify.UserName),
+                    new Claim(JwtRegisteredClaimNames.Email, userToVerify.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 });
             }
 

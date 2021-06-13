@@ -2,7 +2,7 @@
 {
     public record Register(string Name, string Email, string Password);
 
-    public record Login(string NameOrEmail, string Password);
+    public record Login(string UserNameOrEmail, string Password);
 
     public record LoginToken(string Token);
 

@@ -1,3 +1,12 @@
 {
-  "message": "hello i18n !!"
+  "message": "hello i18n !!",
+  "account": {
+    "userName": "User name",
+    "email": "Email",
+    "userNameOrEmail": "User name or email",
+    "password": "Password",
+    "login": "Login",
+    "register": "Register"
+  },
+  "text": "test text"
 }
