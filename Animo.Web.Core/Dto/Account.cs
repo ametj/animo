@@ -10,8 +10,6 @@
 
     public record ForgotPassword(string UserNameOrEmail);
 
-    public record ForgotPasswordToken(string Token);
-
     public record ResetPassword(string UserNameOrEmail, string Password, string Token);
 
 }

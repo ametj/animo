@@ -6,11 +6,14 @@
     "password": "Password should have atleast one upper case, lower case, digit and special character."
   },
   "account": {
-    "userName": "User name",
+    "userName": "Username",
     "email": "Email",
-    "userNameOrEmail": "User name or email",
+    "userNameOrEmail": "Username or email",
     "password": "Password",
     "forgotPassword": "Forgot password?",
+    "sendPasswordResetEmail": "Send password reset email",
+    "passwordResetEmailSent": "Password reset email has been sent. Check your email.",
+    "userNotRegistered": "User with given username or email is not registered.",
     "login": "Login",
     "register": "Register"
   },

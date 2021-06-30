@@ -3,15 +3,15 @@ import { useRoute, useRouter } from "vue-router";
 import AuthService from "@/service/AuthService";
 import RouteNames from "@/router/RouteNames";
 import { useI18n } from "vue-i18n";
+import useForm from "@/composables/form";
 export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
     const { t } = useI18n();
 
-    const form = ref(null);
-    const formData = reactive({} as IRegister);
-    const errors = ref({});
+    const { form, formData, errors, submitAction, submit } = useForm<IRegister>();
+
 
     const rules = {
       userName: [
@@ -32,19 +32,13 @@ export default defineComponent({
       ],
     };
 
-    const register = () => {
+    submitAction.action = () => {
       AuthService.register(formData).then((response) => {
         if (!response.hasErrors) {
           router.push({ name: RouteNames.Login, query: route.query });
         } else {
           errors.value = response.errors;
         }
-      });
-    };
-
-    const submit = () => {
-      (form.value as any).validate((isValid: boolean) => {
-        if (isValid) register();
       });
     };
 

@@ -12,3 +12,13 @@ interface IRegister {
   email: string;
   password: string;
 }
+
+interface IForgotPassword {
+  userNameOrEmail: string;
+}
+
+interface IResetPassword {
+  userNameOrEmail: string;
+  password: string;
+  token: string;
+}

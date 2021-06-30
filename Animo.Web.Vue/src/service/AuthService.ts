@@ -10,8 +10,8 @@ class AuthService extends BaseApiService {
     this._userName = ref(AuthTokenStore.getTokenData()?.sub);
   }
 
-  public async login(loginForm: ILogin): Promise<IResponse<ILoginToken>> {
-    const response = await this.post<ILoginToken>("account/login", loginForm);
+  public async login(form: ILogin): Promise<IResponse<ILoginToken>> {
+    const response = await this.post<ILoginToken>("account/login", form);
     if (response.data?.token) {
       AuthTokenStore.setToken(response.data.token);
       this.setUserName();
@@ -24,8 +24,12 @@ class AuthService extends BaseApiService {
     this.setUserName();
   }
 
-  public async register(registerForm: IRegister): Promise<IResponse> {
-    return await this.post("account/register", registerForm);
+  public async register(form: IRegister): Promise<IResponse> {
+    return await this.post("account/register", form);
+  }
+
+  public async forgotPassword(form: IForgotPassword): Promise<IResponse> {
+    return await this.post("account/password/reset", form);
   }
 
   public get userName(): Ref<string> {

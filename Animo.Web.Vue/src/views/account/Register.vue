@@ -10,8 +10,7 @@
       <el-input v-model="formData.password" maxlength="32" :placeholder="$t('account.password')" show-password></el-input>
     </el-form-item>
     <div v-for="(value, name) in errors" :key="name" style="margin-bottom: 22px">
-      <el-alert :title="value[0]" type="error" show-icon></el-alert
-      ><!-- {{ $t(name) }} -->
+      <el-alert :title="value[0]" type="error" show-icon></el-alert>
     </div>
     <el-form-item>
       <el-button round type="primary" @click="submit">{{ $t("account.register") }}</el-button>

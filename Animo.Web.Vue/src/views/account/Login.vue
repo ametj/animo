@@ -16,8 +16,7 @@
       ></el-input>
     </el-form-item>
     <div v-for="(value, name) in errors" :key="name" style="margin-bottom: 22px">
-      <el-alert :title="value[0]" type="error" show-icon></el-alert
-      ><!-- {{ $t(name) }} -->
+      <el-alert :title="value[0]" type="error" show-icon></el-alert>
     </div>
     <el-form-item>
       <el-button round type="primary" @click="submit">{{ $t("account.login") }}</el-button>

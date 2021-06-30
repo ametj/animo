@@ -116,7 +116,7 @@ namespace Animo.Web.Api.Controllers
         }
 
         [HttpPost("Password/Reset")]
-        public async Task<ActionResult<ForgotPasswordToken>> ForgotPassword([FromBody] ForgotPassword body)
+        public async Task<ActionResult> ForgotPassword([FromBody] ForgotPassword body)
         {
             var user = await FindUserByUserNameOrEmail(body.UserNameOrEmail);
             if (user == null)
@@ -137,7 +137,7 @@ namespace Animo.Web.Api.Controllers
                 return Problem();
             }
 
-            return Ok(new ForgotPasswordToken(resetToken));
+            return Ok();
         }
 
         [HttpPut("Password/Reset")]

@@ -18,7 +18,14 @@ namespace Animo.Web.Api.Validators
         {
             RuleFor(m => m.UserName).NotEmpty();
             RuleFor(m => m.Email).NotEmpty().EmailAddress();
-            RuleFor(m => m.Password).NotEmpty();
+        }
+    }
+
+    public class ForgotPasswordValidator : AbstractValidator<ForgotPassword>
+    {
+        public ForgotPasswordValidator()
+        {
+            RuleFor(m => m.UserNameOrEmail).NotEmpty();
         }
     }
 }

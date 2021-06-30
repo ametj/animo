@@ -34,6 +34,8 @@ export default class BaseApiService {
       return { hasErrors: true, errors: error.response.data.errors } as IResponse;
     } else if (status === 401) {
       AuthTokenStore.removeToken();
+    } else if (status === 404) {
+      return { hasErrors: true } as IResponse;
     }
   }
 
