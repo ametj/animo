@@ -18,8 +18,16 @@ export default class BaseApiService {
     return apiUrl?.endsWith("/") ? apiUrl : `${apiUrl}/`;
   }
 
+  public async get<T>(url: string, data: any): Promise<IResponse<T>> {
+    return await this.api.get<T>(url, data);
+  }
+
   public async post<T>(url: string, data: any): Promise<IResponse<T>> {
     return await this.api.post<T>(url, data);
+  }
+
+  public async put<T>(url: string, data: any): Promise<IResponse<T>> {
+    return await this.api.put<T>(url, data);
   }
 
   protected toOkResponse<T>(response: AxiosResponse<T>): any {

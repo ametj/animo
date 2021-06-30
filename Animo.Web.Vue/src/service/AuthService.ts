@@ -32,6 +32,10 @@ class AuthService extends BaseApiService {
     return await this.post("account/password/reset", form);
   }
 
+  public async resetPassword(form: IResetPassword): Promise<IResponse> {
+    return await this.put("account/password/reset", form);
+  }
+
   public get userName(): Ref<string> {
     return this._userName;
   }

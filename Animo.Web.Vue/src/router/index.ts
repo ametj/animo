@@ -48,6 +48,11 @@ const routes: Array<RouteRecordRaw> = [
         name: RouteNames.ForgotPassword,
         component: () => import("@/views/account/ForgotPassword.vue"),
       },
+      {
+        path: "reset_password",
+        name: RouteNames.ResetPassword,
+        component: () => import("@/views/account/ResetPassword.vue"),
+      },
     ],
   },
 ];

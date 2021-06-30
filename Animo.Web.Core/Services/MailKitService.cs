@@ -6,6 +6,7 @@ using MimeKit;
 using MimeKit.Text;
 using System;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Animo.Web.Core.Services
 {
@@ -41,7 +42,7 @@ namespace Animo.Web.Core.Services
 
         public async Task SendResetPasswordMailAsync(User user, string resetToken)
         {
-            var callbackUrl = _configuration["App:ClientUrl"] + "/account/reset_password?token=" + resetToken;
+            var callbackUrl = $"{_configuration["App:ClientUrl"]}/account/reset_password?token={HttpUtility.UrlEncode(resetToken)}&email={HttpUtility.UrlEncode(user.Email)}";
 
             var from = GetFrom();
 
@@ -66,7 +67,8 @@ namespace Animo.Web.Core.Services
             await SendMailAsync(message);
             _logger.LogInformation($"Reset password for {user.UserName} sent to {user.Email}");
 #if DEBUG
-            _logger.LogInformation($"Reset token: {resetToken}");
+            _logger.LogInformation($"Url: {resetToken}");
+            _logger.LogInformation($"Url: {callbackUrl}");
 #endif
         }
 

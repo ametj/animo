@@ -44,7 +44,7 @@ namespace Animo.Web.Api.Extensions
             {
                 options.AddDefaultPolicy(
                     builder =>
-                        builder.WithOrigins(configuration["App:ClientUrls"].Split(",", StringSplitOptions.RemoveEmptyEntries))
+                        builder.WithOrigins(configuration["App:ClientUrl"])
                             .AllowAnyHeader()
                             .AllowAnyMethod());
             });

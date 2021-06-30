@@ -1,5 +1,5 @@
 <template>
-  <el-form v-if="!emailSent" :model="formData" :rules="rules" ref="form" @keyup.enter="submit">
+  <el-form v-if="!emailSent" :model="formData" :rules="rules" ref="form" @submit.prevent="submit">
     <el-form-item prop="userNameOrEmail">
       <el-input
         v-model="formData.userNameOrEmail"
@@ -14,7 +14,12 @@
       <el-button round type="primary" @click="submit">{{ $t("account.sendPasswordResetEmail") }}</el-button>
     </el-form-item>
   </el-form>
-  <div v-else>{{ $t("account.passwordResetEmailSent")}}</div>
+  <el-result
+    v-else
+    icon="success"
+    :title="$t('account.passwordResetEmailSentTitle')"
+    :subTitle="$t('account.passwordResetEmailSentSubTitle')"
+  ></el-result>
 </template>
 
 <script src="./ForgotPassword.ts" lang="ts" />
