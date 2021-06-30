@@ -1,10 +1,16 @@
 {
   "message": "hello i18n !!",
+  "validation": {
+    "required": "{0} is required.",
+    "length": "{0} length should be {1} to {2}.",
+    "password": "Password should have atleast one upper case, lower case, digit and special character."
+  },
   "account": {
     "userName": "User name",
     "email": "Email",
     "userNameOrEmail": "User name or email",
     "password": "Password",
+    "forgotPassword": "Forgot password?",
     "login": "Login",
     "register": "Register"
   },

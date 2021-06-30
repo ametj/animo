@@ -1,7 +1,7 @@
 import AuthTokenStore from "@/store/AuthTokenStore";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "@/views/Home.vue";
-import EmptyLayout from "@/layouts/EmptyLayout.vue";
+import AccountLayout from "@/layouts/AccountLayout.vue";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import RouteNames from "./RouteNames";
 
@@ -31,12 +31,22 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/account",
     name: "Account",
-    component: EmptyLayout,
+    component: AccountLayout,
     children: [
       {
         path: "login",
         name: RouteNames.Login,
-        component: () => import("../views/login/Login.vue"),
+        component: () => import("@/views/account/Login.vue"),
+      },
+      {
+        path: "register",
+        name: RouteNames.Register,
+        component: () => import("@/views/account/Register.vue"),
+      },
+      {
+        path: "forgotPassword",
+        name: RouteNames.ForgotPassword,
+        component: () => import("@/views/account/Register.vue"),
       },
     ],
   },

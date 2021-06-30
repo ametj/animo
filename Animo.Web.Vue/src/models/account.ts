@@ -6,3 +6,9 @@ interface ILogin {
 interface ILoginToken {
   token: string;
 }
+
+interface IRegister {
+  userName: string;
+  email: string;
+  password: string;
+}

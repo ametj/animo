@@ -3,7 +3,7 @@
     <el-row type="flex">
       <el-col :span="12">
         <el-row type="flex" align="middle" justify="start">
-          <router-link to="/"> Animo </router-link>
+          <router-link to="/">Animo</router-link>
           <router-link to="/About">
             <el-menu-item index="1">Browse</el-menu-item>
           </router-link>
@@ -23,8 +23,8 @@
             </router-link>
             <el-button v-if="userName" @click="logout" type="text">{{ userName }}</el-button>
             <router-link v-else :to="{ name: RouteNames.Login }"
-              ><el-button type="text"> Login </el-button></router-link
-            >
+              ><el-button type="text">{{ $t("account.login") }}</el-button>
+            </router-link>
           </el-space>
         </el-row>
       </el-col>
