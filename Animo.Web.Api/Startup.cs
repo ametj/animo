@@ -1,7 +1,9 @@
 using Animo.Web.Api.Extensions;
+using Animo.Web.Api.Validators;
 using Animo.Web.Core;
 using Animo.Web.Core.ActionFilters;
 using Animo.Web.Data;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -38,6 +40,7 @@ namespace Animo.Web.Api
             services.ConfigureDependencyInjection();
 
             services.AddAutoMapper(typeof(Startup), typeof(IBaseDbContext), typeof(AnimoDbContext));
+            services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginValidator>());
 
             services.AddControllers(options =>
             {
@@ -58,7 +61,7 @@ namespace Animo.Web.Api
 
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();  
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

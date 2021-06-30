@@ -1,5 +1,6 @@
 ﻿using Animo.Web.Core.Auth;
 using Animo.Web.Core.Dto;
+using Animo.Web.Core.Extensions;
 using Animo.Web.Core.Models.Permissions;
 using Animo.Web.Core.Models.Roles;
 using Animo.Web.Core.Models.Users;
@@ -59,15 +60,12 @@ namespace Animo.Web.Api.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult> Register([FromBody] Register body)
         {
-            var byName = await _userManager.FindByNameAsync(body.Name);
-            var byEmail = await _userManager.FindByEmailAsync(body.Email);
-
-            if (byName != null)
+            if (!body.UserName.IsNullOrEmpty() && await _userManager.FindByNameAsync(body.UserName) != null)
             {
-                ModelState.AddModelError("Name", $"User with name '{body.Name}' already exists!");
+                ModelState.AddModelError("Name", $"User with name '{body.UserName}' already exists!");
             }
 
-            if (byEmail != null)
+            if (!body.Email.IsNullOrEmpty() && await _userManager.FindByEmailAsync(body.Email) != null)
             {
                 ModelState.AddModelError("Email", $"User with email {body.Email} already exists!");
             }
@@ -80,7 +78,7 @@ namespace Animo.Web.Api.Controllers
 
             var applicationUser = new User
             {
-                UserName = body.Name,
+                UserName = body.UserName,
                 Email = body.Email,
                 EmailConfirmed = false
             };
@@ -94,7 +92,7 @@ namespace Animo.Web.Api.Controllers
                 return ValidationProblem();
             }
 
-            var currentUser = await _userManager.FindByNameAsync(body.Name);
+            var currentUser = await _userManager.FindByNameAsync(body.UserName);
             await _userManager.AddToRoleAsync(currentUser, DefaultRoles.Member.Name);
 
             _logger.LogInformation($"Registration success: {applicationUser}");
@@ -120,7 +118,7 @@ namespace Animo.Web.Api.Controllers
         [HttpPost("Password/Reset")]
         public async Task<ActionResult<ForgotPasswordToken>> ForgotPassword([FromBody] ForgotPassword body)
         {
-            var user = await FindUserByUserNameOrEmail(body.NameOrEmail);
+            var user = await FindUserByUserNameOrEmail(body.UserNameOrEmail);
             if (user == null)
             {
                 return NotFound();
@@ -145,17 +143,17 @@ namespace Animo.Web.Api.Controllers
         [HttpPut("Password/Reset")]
         public async Task<ActionResult> ResetPassword([FromBody] ResetPassword body)
         {
-            var user = await FindUserByUserNameOrEmail(body.NameOrEmail);
+            var user = await FindUserByUserNameOrEmail(body.UserNameOrEmail);
             if (user == null)
             {
-                ModelState.AddModelError("NameOrEmail", $"User '{body.NameOrEmail}' not found!");
+                ModelState.AddModelError("NameOrEmail", $"User '{body.UserNameOrEmail}' not found!");
                 return ValidationProblem();
             }
 
             var result = await _userManager.ResetPasswordAsync(user, body.Token, body.Password);
             if (!ProcessIdentityValidation(result))
             {
-                _logger.LogInformation($"Password reset fail: {body.NameOrEmail}");
+                _logger.LogInformation($"Password reset fail: {body.UserNameOrEmail}");
                 return ValidationProblem();
             }
 

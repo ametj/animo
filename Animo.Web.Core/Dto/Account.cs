@@ -1,6 +1,6 @@
 ﻿namespace Animo.Web.Core.Dto
 {
-    public record Register(string Name, string Email, string Password);
+    public record Register(string UserName, string Email, string Password);
 
     public record Login(string UserNameOrEmail, string Password);
 
@@ -8,10 +8,10 @@
 
     public record ChangePassword(string CurrentPassword, string NewPassword);
 
-    public record ForgotPassword(string NameOrEmail);
+    public record ForgotPassword(string UserNameOrEmail);
 
     public record ForgotPasswordToken(string Token);
 
-    public record ResetPassword(string NameOrEmail, string Password, string Token);
+    public record ResetPassword(string UserNameOrEmail, string Password, string Token);
 
 }
