@@ -11,7 +11,7 @@ export default defineComponent({
     const route = useRoute();
     const { t } = useI18n();
 
-    const { form, formData, errors, submitAction, submit } = useForm<IResetPassword>();
+    const { form, formData, errors, loading, submitAction, submit } = useForm<IResetPassword>();
     formData.token = route.query.token as string;
     formData.userNameOrEmail = route.query.email as string;
 
@@ -29,6 +29,7 @@ export default defineComponent({
 
     submitAction.action = () => {
       AuthService.resetPassword(formData).then((response) => {
+        loading.value = false;
         if (!response.hasErrors) {
           router.push({ name: RouteNames.Login });
         } else {
@@ -43,6 +44,7 @@ export default defineComponent({
       formData,
       rules,
       errors,
+      loading,
       submit,
     };
   },

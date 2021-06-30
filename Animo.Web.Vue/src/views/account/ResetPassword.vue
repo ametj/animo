@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="formData" :rules="rules" ref="form" @submit.prevent="submit">
+  <el-form v-loading.fullscreen.lock="loading" :model="formData" :rules="rules" ref="form" @submit.prevent="submit">
     <el-form-item prop="password">
       <el-input v-model="formData.password" maxlength="32" :placeholder="$t('account.passwordNew')" show-password></el-input>
     </el-form-item>

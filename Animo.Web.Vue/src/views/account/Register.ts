@@ -10,8 +10,7 @@ export default defineComponent({
     const route = useRoute();
     const { t } = useI18n();
 
-    const { form, formData, errors, submitAction, submit } = useForm<IRegister>();
-
+    const { form, formData, errors, loading, submitAction, submit } = useForm<IRegister>();
 
     const rules = {
       userName: [
@@ -34,6 +33,7 @@ export default defineComponent({
 
     submitAction.action = () => {
       AuthService.register(formData).then((response) => {
+        loading.value = false;
         if (!response.hasErrors) {
           router.push({ name: RouteNames.Login, query: route.query });
         } else {
@@ -48,6 +48,7 @@ export default defineComponent({
       formData,
       rules,
       errors,
+      loading,
       submit,
     };
   },

@@ -1,5 +1,12 @@
 <template>
-  <el-form v-if="!emailSent" :model="formData" :rules="rules" ref="form" @submit.prevent="submit">
+  <el-form
+    v-if="!emailSent"
+    v-loading.fullscreen.lock="loading"
+    ref="form"
+    :model="formData"
+    :rules="rules"
+    @submit.prevent="submit"
+  >
     <el-form-item prop="userNameOrEmail">
       <el-input
         v-model="formData.userNameOrEmail"

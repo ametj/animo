@@ -44,3 +44,7 @@ $--font-path: "~element-plus/lib/theme-chalk/fonts";
     background-color: unset;
   }
 }
+
+.el-loading-mask {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+}

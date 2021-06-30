@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="formData" :rules="rules" ref="form" @keyup.enter="submit">
+  <el-form v-loading.fullscreen.lock="loading" :model="formData" :rules="rules" ref="form" @keyup.enter="submit">
     <el-form-item prop="userName">
       <el-input v-model="formData.userName" maxlength="20" :placeholder="$t('account.userName')"></el-input>
     </el-form-item>

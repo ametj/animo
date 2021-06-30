@@ -11,7 +11,7 @@ export default defineComponent({
     const route = useRoute();
     const { t } = useI18n();
 
-    const { form, formData, errors, submitAction, submit } = useForm<ILogin>();
+    const { form, formData, errors, loading, submitAction, submit } = useForm<ILogin>();
 
     const rules = {
       userNameOrEmail: [{ required: true, message: t("validation.required", [t("account.userNameOrEmail")]) }],
@@ -20,6 +20,7 @@ export default defineComponent({
 
     submitAction.action = () => {
       AuthService.login(formData).then((response) => {
+        loading.value = false;
         if (!response.hasErrors) {
           const redirect = route.query.redirect ? (route.query.redirect as string) : { name: RouteNames.Home };
           router.push(redirect);
@@ -35,6 +36,7 @@ export default defineComponent({
       formData,
       rules,
       errors,
+      loading,
       submit,
     };
   },

@@ -9,8 +9,8 @@ export default defineComponent({
     const { t } = useI18n();
 
     const emailSent = ref(false);
-
-    const { form, formData, errors, submitAction, submit } = useForm<IForgotPassword>();
+    
+    const { form, formData, errors, loading, submitAction, submit } = useForm<IForgotPassword>();
 
     const rules = {
       userNameOrEmail: [{ required: true, message: t("validation.required", [t("account.userNameOrEmail")]) }],
@@ -18,6 +18,7 @@ export default defineComponent({
 
     submitAction.action = () => {
       AuthService.forgotPassword(formData).then((response) => {
+        loading.value = false;
         if (!response.hasErrors) {
           emailSent.value = true;
         } else {
@@ -33,6 +34,7 @@ export default defineComponent({
       emailSent,
       rules,
       errors,
+      loading,
       submit,
     };
   },
