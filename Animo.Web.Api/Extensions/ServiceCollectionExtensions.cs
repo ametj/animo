@@ -94,6 +94,8 @@ namespace Animo.Web.Api.Extensions
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMailService, MailKitService>();
+            services.AddSingleton<ITMDbClientFactory, TMDbClientFactory>();
+            services.AddScoped<ITMDbService, TMDbService>();
             services.AddScoped<SmtpConfiguration>();
             services.AddScoped<UnitOfWorkActionFilter>();
             services.AddScoped<BadRequestLogging>();

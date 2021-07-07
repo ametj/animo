@@ -1,4 +1,5 @@
 using Animo.Web.Api.Extensions;
+using Animo.Web.Api.Services;
 using Animo.Web.Api.Validators;
 using Animo.Web.Core;
 using Animo.Web.Core.ActionFilters;
@@ -65,6 +66,7 @@ namespace Animo.Web.Api
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddHostedService<DbMigratorHostedService>();
+            services.AddHostedService<TMDBClientFactoryInitializationHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
