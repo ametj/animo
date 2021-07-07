@@ -1,9 +1,11 @@
+@import "./base";
+
 /* theme color */
-$--color-primary: #f0355e;
+$--color-primary: $--primary-color;
 $--color-white: #222222;
 $--color-black: white;
 
-$--background-color-base: #0A0A0A;
+$--background-color-base: $--background-color;
 $--menu-background-color: $--background-color-base;
 
 $--color-primary-light-1: mix($--color-white, $--color-primary, 90%);
@@ -22,10 +24,6 @@ $--color-text-secondary: #6f6c66;
 $--color-text-placeholder: #a0a4ac;
 
 $--border-color-base: #232019;
-
-$--border-color-light: yellow;
-$--border-color-lighter: cyan;
-$--border-color-extra-light: magenta;
 
 $--border-color-hover: $--color-primary-light-4;
 
