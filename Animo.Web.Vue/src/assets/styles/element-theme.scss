@@ -3,7 +3,7 @@ $--color-primary: #f0355e;
 $--color-white: #222222;
 $--color-black: white;
 
-$--background-color-base: #090909;
+$--background-color-base: #0A0A0A;
 $--menu-background-color: $--background-color-base;
 
 $--color-primary-light-1: mix($--color-white, $--color-primary, 90%);
@@ -34,14 +34,24 @@ $--input-border-radius: 0;
 $--font-path: "~element-plus/lib/theme-chalk/fonts";
 @import "~element-plus/packages/theme-chalk/src/index";
 
-.el-menu {
-  border: none !important;
-}
+.el-header {
+  padding: 0 !important;
+  background-color: #050505 !important;
 
-.el-menu-item {
-  &:focus {
-    color: $--color-primary !important;
-    background-color: unset;
+  .el-menu--horizontal {
+    background-color: inherit !important;
+    border-bottom: solid 1px $--color-primary !important;
+
+    >.el-row {
+      margin: 0 40px !important;
+    }
+  }
+
+  .el-menu-item {
+    &:focus {
+      color: $--color-primary !important;
+      background-color: unset;
+    }
   }
 }
 

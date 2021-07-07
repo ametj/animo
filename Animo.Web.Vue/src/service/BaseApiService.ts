@@ -14,7 +14,7 @@ export default class BaseApiService {
   }
 
   public get apiUrl(): string {
-    var apiUrl = process.env.VUE_APP_APIURL;
+    const apiUrl = process.env.VUE_APP_APIURL;
     return apiUrl?.endsWith("/") ? apiUrl : `${apiUrl}/`;
   }
 
