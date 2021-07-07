@@ -17,7 +17,6 @@ using System.Threading.Tasks;
 
 namespace Animo.Web.Api.Controllers
 {
-    [Route("api/[controller]")]
     public class AccountController : BaseController
     {
         private readonly UserManager<User> _userManager;

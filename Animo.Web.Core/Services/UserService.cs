@@ -90,14 +90,14 @@ namespace Animo.Web.Core.Services
 
             if (!request.User.Password.IsNullOrEmpty())
             {
-                var changePasswordResult = await ChangePassword(user, request.User.Password);
+                var changePasswordResult = await ChangePasswordAsync(user, request.User.Password);
                 if (!changePasswordResult.Succeeded)
                 {
                     return changePasswordResult;
                 }
             }
 
-            return await UpdateUser(request, user);
+            return await UpdateUserAsync(request, user);
         }
 
         public async Task<IdentityResult> RemoveUserAsync(int id)
@@ -138,7 +138,7 @@ namespace Animo.Web.Core.Services
             }
         }
 
-        private async Task<IdentityResult> ChangePassword(User user, string password)
+        private async Task<IdentityResult> ChangePasswordAsync(User user, string password)
         {
             var changePasswordResult = await _userManager.RemovePasswordAsync(user);
             if (changePasswordResult.Succeeded)
@@ -149,7 +149,7 @@ namespace Animo.Web.Core.Services
             return changePasswordResult;
         }
 
-        private async Task<IdentityResult> UpdateUser(CreateOrUpdateUser request, User user)
+        private async Task<IdentityResult> UpdateUserAsync(CreateOrUpdateUser request, User user)
         {
             user.UserName = request.User.UserName;
             user.Email = request.User.Email;
