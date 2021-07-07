@@ -7,11 +7,11 @@ namespace Animo.Web.Core.ActionFilters
 {
     public class UnitOfWorkActionFilter : ActionFilterAttribute
     {
-        private readonly IBaseDbContext _dbContext;
+        private readonly DbContext _dbContext;
 
         public UnitOfWorkActionFilter(IBaseDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext as DbContext;
         }
 
         public override void OnActionExecuted(ActionExecutedContext context)

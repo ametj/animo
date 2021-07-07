@@ -2,6 +2,7 @@ using Animo.Web.Api.Extensions;
 using Animo.Web.Api.Validators;
 using Animo.Web.Core;
 using Animo.Web.Core.ActionFilters;
+using Animo.Web.Core.Services;
 using Animo.Web.Data;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -62,13 +63,13 @@ namespace Animo.Web.Api
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddHostedService<DbMigratorHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AnimoDbContext dbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            dbContext.Database.Migrate();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
