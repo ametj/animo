@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Animo.Web.Data", "Animo.Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Animo.Web.Core", "Animo.Web.Core\Animo.Web.Core.csproj", "{648E94E7-602D-48A8-951C-C5F4D2264191}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Animo.Web.Tests.Integration", "Animo.Web.Tests.Integration\Animo.Web.Tests.Integration.csproj", "{131229D0-AB67-46F6-BF95-F911F6A9FFBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Animo.Web.Tests.Integration", "Animo.Web.Tests.Integration\Animo.Web.Tests.Integration.csproj", "{131229D0-AB67-46F6-BF95-F911F6A9FFBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Animo.Web.Tests.Unit", "Animo.Web.Tests.Unit\Animo.Web.Tests.Unit.csproj", "{504C4C97-1E90-4B68-9507-C835ACDBDDE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{131229D0-AB67-46F6-BF95-F911F6A9FFBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{131229D0-AB67-46F6-BF95-F911F6A9FFBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{131229D0-AB67-46F6-BF95-F911F6A9FFBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{504C4C97-1E90-4B68-9507-C835ACDBDDE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{504C4C97-1E90-4B68-9507-C835ACDBDDE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{504C4C97-1E90-4B68-9507-C835ACDBDDE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{504C4C97-1E90-4B68-9507-C835ACDBDDE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
