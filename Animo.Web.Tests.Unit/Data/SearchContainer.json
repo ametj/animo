@@ -1,0 +1,27 @@
+{
+	"page": 1,
+	"results": [
+		{
+			"firstAirDate": "2008-01-20T00:00:00",
+			"name": "Breaking Bad",
+			"originalName": "Breaking Bad",
+			"originCountry": [
+				"US"
+			],
+			"backdropPath": "/tsRy63Mu5cu8etL1X7ZLyf7UP1M.jpg",
+			"genreIds": [
+				18
+			],
+			"originalLanguage": "en",
+			"overview": "When Walter White, a New Mexico chemistry teacher, is diagnosed with Stage III cancer and given a prognosis of only two years left to live. He becomes filled with a sense of fearlessness and an unrelenting desire to secure his family's financial future at any cost as he enters the dangerous world of drugs and crime.",
+			"posterPath": "/ggFHVNu6YYI5L9pCfOacjizRGt.jpg",
+			"voteAverage": 8.7,
+			"voteCount": 7261,
+			"id": 1396,
+			"mediaType": 2,
+			"popularity": 249.068
+		}
+	],
+	"totalPages": 1,
+	"totalResults": 1
+}

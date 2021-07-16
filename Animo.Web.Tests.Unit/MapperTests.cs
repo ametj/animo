@@ -1,7 +1,9 @@
 using Animo.Web.Api;
 using Animo.Web.Api.Dto;
+using Animo.Web.Core.Dto;
 using AutoMapper;
 using System.Threading.Tasks;
+using TMDbLib.Objects.General;
 using TMDbLib.Objects.Search;
 using Xunit;
 
@@ -45,6 +47,18 @@ namespace Animo.Web.Tests.Unit
             Assert.Equal(searchTv.BackdropPath, searchItem.BackdropPath);
             Assert.Equal(searchTv.PosterPath, searchItem.PosterPath);
             Assert.Equal(searchTv.FirstAirDate, searchItem.Released);
+        }
+
+        [Fact]
+        public async Task SearchContainerMappingTest()
+        {
+            var searchTv = await LoadJsonAsync<SearchContainer<SearchTv>>("./Data/SearchContainer.json");
+
+            var result = _mapper.Map<PagedList<SearchItem>>(searchTv);
+            Assert.Equal(searchTv.Page, result.Page);
+            Assert.Equal(searchTv.TotalPages, result.TotalPages);
+            Assert.Equal(searchTv.TotalResults, result.TotalResults);
+            Assert.Equal(searchTv.Results.Count, result.Results.Count);
         }
     }
 }

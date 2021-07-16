@@ -1,4 +1,6 @@
-﻿using Animo.Web.Core;
+﻿using Animo.Web.Api.Services;
+using Animo.Web.Api.Services.TMDB;
+using Animo.Web.Core;
 using Animo.Web.Core.ActionFilters;
 using Animo.Web.Core.Auth;
 using Animo.Web.Core.Models.Permissions;
@@ -96,6 +98,7 @@ namespace Animo.Web.Api.Extensions
             services.AddScoped<IMailService, MailKitService>();
             services.AddSingleton<ITMDbClientFactory, TMDbClientFactory>();
             services.AddScoped<ITMDbService, TMDbService>();
+            services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<SmtpConfiguration>();
             services.AddScoped<UnitOfWorkActionFilter>();
             services.AddScoped<BadRequestLogging>();

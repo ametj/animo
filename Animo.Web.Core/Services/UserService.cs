@@ -40,7 +40,7 @@ namespace Animo.Web.Core.Services
             var users = query.PagedBy(request.PageIndex, request.PageSize).ToList();
             var userListOutput = _mapper.Map<List<UserListDto>>(users);
 
-            return new(userListOutput, usersCount);
+            return new(userListOutput, usersCount, request);
         }
 
         public async Task<GetUserForCreateOrUpdate> GetUserForCreateOrUpdateAsync(int id)
